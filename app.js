@@ -359,7 +359,7 @@
         <span class="marca" aria-hidden="true">${CHECK}</span>
       </label></li>` : `
       <li class="cat"><label style="--cor:var(--p-${k})">
-        <span class="amostra" aria-hidden="true"></span>
+        <span class="amostra" aria-hidden="true">${iconeSVG(k)}</span>
         <input type="checkbox" value="${k}" ${salvo.cats[k] ? 'checked' : ''}>
         <span><b>${v.nome}</b><i>${v.sub}</i></span>
         <span class="marca" aria-hidden="true">${CHECK}</span>
@@ -391,7 +391,7 @@
     $('#lista-restam').innerHTML = Object.entries(CATEGORIAS).filter(([k, v]) => !v.dentro || catAtiva(k)).map(([k, v]) => {
       const todas = CENAS.filter((c) => c.c === k);
       const faltam = todas.filter((c) => !jog.has(idDe(c))).length;
-      return `<li style="--cor:var(--p-${k})"><span class="amostra" aria-hidden="true"></span><span>${v.nome}</span><b>${faltam} de ${todas.length}</b></li>`;
+      return `<li style="--cor:var(--p-${k})"><span class="amostra" aria-hidden="true">${iconeSVG(k)}</span><span>${v.nome}</span><b>${faltam} de ${todas.length}</b></li>`;
     }).join('');
     $('#lista-favs').innerHTML = salvo.favs.map((id) => itemCena(id)).join('') || '<li class="vazio">Toque no coração de uma cena para guardar aqui.</li>';
     const ult = salvo.hist.slice(-15).reverse();

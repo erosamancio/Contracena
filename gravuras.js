@@ -127,3 +127,8 @@ const GRAVURAS = {
 function gravuraSVG(cat) {
   return `<svg viewBox="0 0 200 140" class="xilo"><g filter="url(#tinta)">${MOLDURA}${GRAVURAS[cat] || ''}</g></svg>`;
 }
+
+// Versão pequena, sem moldura, para os quadradinhos das categorias.
+function iconeSVG(cat) {
+  return `<svg viewBox="22 6 156 128" class="xilo" aria-hidden="true"><g filter="url(#tinta)">${GRAVURAS[cat] || ''}</g></svg>`;
+}
