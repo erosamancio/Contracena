@@ -9,7 +9,7 @@ const CATEGORIAS = {
   trabalho: { nome: 'Expediente',         sub: 'Chefe, cliente, atendente e entrevista' },
   absurdo:  { nome: 'Absurdo',            sub: 'Alienígena, fantasma e outras impossibilidades' },
   picante:  { nome: 'Picante',            sub: 'Flerte e provocação, sem passar do ponto', off: true },
-  quente:   { nome: 'Mais quentes',       sub: 'Só para vocês dois. Combinem um sinal para parar.', off: true, dentro: 'picante' },
+  quente:   { nome: 'Mais quentes',       sub: 'Só para nós dois.', off: true, dentro: 'picante' },
 };
 
 const CENAS = [
