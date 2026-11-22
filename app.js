@@ -4,7 +4,7 @@
   const CHAVE = 'contracena.v1';
   const RECENTES = 30;
   const CENAS_MARATONA = 5;
-  const CORES = { capa: '#F4C531', rotina: '#7FC9B4', encontro: '#F4A3BE', novela: '#E0553A', trabalho: '#7FA6E8', absurdo: '#B4D84A', picante: '#F08A3A', tinta: '#15100E' };
+  const CORES = { capa: '#F4C531', rotina: '#7FC9B4', encontro: '#F4A3BE', novela: '#E0553A', trabalho: '#7FA6E8', absurdo: '#B4D84A', picante: '#F08A3A', quente: '#F2706B', tinta: '#15100E' };
 
   const idDe = (c) => c.c + ':' + c.t;
   const PORID = new Map(CENAS.map((c) => [idDe(c), c]));
@@ -77,7 +77,11 @@
   }
 
   // ── sorteio ──
-  function ativas() { return CENAS.filter((c) => salvo.cats[c.c]); }
+  const catAtiva = (k) => {
+    const d = CATEGORIAS[k]?.dentro;
+    return !!salvo.cats[k] && (!d || !!salvo.cats[d]);
+  };
+  function ativas() { return CENAS.filter((c) => catAtiva(c.c)); }
 
   function pesoCategoria(cat) {
     const notas = Object.entries(salvo.notas).filter(([id]) => id.startsWith(cat + ':')).map(([, n]) => n);
@@ -331,14 +335,14 @@
   // ── capa ──
   function pintarCapa() {
     pintarNomes();
-    const nomes = Object.entries(CATEGORIAS).filter(([k]) => salvo.cats[k]).map(([, v]) => v.nome);
+    const nomes = Object.entries(CATEGORIAS).filter(([k]) => catAtiva(k)).map(([, v]) => v.nome);
     let clima;
     if (!nomes.length) clima = 'Nenhum tipo de cena escolhido. Toque em Clima da noite.';
-    else if (nomes.length === Object.keys(CATEGORIAS).length) clima = 'Hoje vale tudo, até as picantes.';
+    else if (nomes.length === Object.keys(CATEGORIAS).length) clima = 'Hoje vale tudo, até as mais quentes.';
     else clima = 'Hoje: ' + (nomes.length > 1 ? nomes.slice(0, -1).join(', ') + ' e ' + nomes.at(-1) : nomes[0]) + '.';
     const modos = { rapida: '', maratona: ' Modo maratona.', troca: ' Com troca de papéis.' };
     $('#capa-clima').textContent = clima + modos[salvo.modo];
-    $('#capa-contagem').textContent = `${CENAS.length} cenas`;
+    $("#capa-contagem").textContent = `${ativas().length} cenas`;
   }
 
   // ── clima ──
@@ -348,7 +352,12 @@
     $('#nome-ele').value = salvo.nomes.ele;
     const totais = {};
     CENAS.forEach((c) => { totais[c.c] = (totais[c.c] || 0) + 1; });
-    $('#lista-cats').innerHTML = Object.entries(CATEGORIAS).map(([k, v]) => `
+    $('#lista-cats').innerHTML = Object.entries(CATEGORIAS).map(([k, v]) => v.dentro ? `
+      <li class="cat cat-sub ${salvo.cats[v.dentro] ? '' : 'inativa'}" data-dentro="${v.dentro}"><label style="--cor:var(--p-${k})">
+        <input type="checkbox" value="${k}" ${salvo.cats[k] ? 'checked' : ''} ${salvo.cats[v.dentro] ? '' : 'tabindex="-1"'}>
+        <span><b>Incluir as mais quentes (+18)</b><i>${v.sub}</i></span>
+        <span class="marca" aria-hidden="true">${CHECK}</span>
+      </label></li>` : `
       <li class="cat"><label style="--cor:var(--p-${k})">
         <span class="amostra" aria-hidden="true"></span>
         <input type="checkbox" value="${k}" ${salvo.cats[k] ? 'checked' : ''}>
@@ -360,6 +369,11 @@
   }
   $('#lista-cats').addEventListener('change', (e) => {
     salvo.cats[e.target.value] = e.target.checked; guardar();
+    $$('#lista-cats [data-dentro]').forEach((li) => {
+      const on = !!salvo.cats[li.dataset.dentro];
+      li.classList.toggle('inativa', !on);
+      li.querySelector('input').tabIndex = on ? 0 : -1;
+    });
   });
   $('#op-modo').addEventListener('change', (e) => { salvo.modo = e.target.value; rodada.maratona = { n: 0, ela: 0, ele: 0 }; guardar(); });
   $('#op-tempo').addEventListener('change', (e) => { salvo.tempo = +e.target.value; guardar(); });
@@ -374,7 +388,7 @@
   }
   function pintarRepertorio() {
     const jog = new Set(salvo.hist);
-    $('#lista-restam').innerHTML = Object.entries(CATEGORIAS).map(([k, v]) => {
+    $('#lista-restam').innerHTML = Object.entries(CATEGORIAS).filter(([k, v]) => !v.dentro || catAtiva(k)).map(([k, v]) => {
       const todas = CENAS.filter((c) => c.c === k);
       const faltam = todas.filter((c) => !jog.has(idDe(c))).length;
       return `<li style="--cor:var(--p-${k})"><span class="amostra" aria-hidden="true"></span><span>${v.nome}</span><b>${faltam} de ${todas.length}</b></li>`;

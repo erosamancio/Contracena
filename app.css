@@ -14,6 +14,7 @@
   --p-trabalho: #7FA6E8;
   --p-absurdo: #B4D84A;
   --p-picante: #F08A3A;
+  --p-quente: #F2706B;
   --papel: var(--p-capa);
   --serif: 'Alegreya', Georgia, serif;
   --tipo: 'Alfa Slab One', 'Rockwell Extra Bold', serif;
@@ -28,6 +29,7 @@ body[data-cor="novela"]   { --papel: var(--p-novela); }
 body[data-cor="trabalho"] { --papel: var(--p-trabalho); }
 body[data-cor="absurdo"]  { --papel: var(--p-absurdo); }
 body[data-cor="picante"]  { --papel: var(--p-picante); }
+body[data-cor="quente"]   { --papel: var(--p-quente); }
 body[data-cor="tinta"]    { --papel: var(--p-capa); }
 
 * { box-sizing: border-box; }
@@ -338,3 +340,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* sub-opção das mais quentes */
+.cat-sub label { grid-template-columns: 1fr auto; min-height: 52px; margin-left: 28px; padding-left: 14px; position: relative; }
+.cat-sub label::before { content: ''; position: absolute; left: -18px; top: -12px; width: 14px; height: 38px; border-left: 2.5px solid var(--tinta); border-bottom: 2.5px solid var(--tinta); }
+.cat-sub b { font-size: 16.5px; }
+.cat-sub.inativa { opacity: .45; pointer-events: none; }

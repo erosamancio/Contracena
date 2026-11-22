@@ -1,4 +1,4 @@
-const VERSAO = 'contracena-v1';
+const VERSAO = 'contracena-v2';
 const ARQUIVOS = ['./', 'index.html', 'app.css', 'app.js', 'cenas.js', 'gravuras.js', 'manifest.webmanifest',
   'fonts/AlfaSlabOne-400.woff2', 'fonts/Alegreya-400.woff2', 'fonts/Alegreya-400i.woff2',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
