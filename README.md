@@ -2,7 +2,7 @@
 
 Cenas de improviso para jogar a dois. Vocês sorteiam uma cena, cada um lê o próprio papel em segredo e atuam como se fosse de verdade.
 
-Jogue em https://erosamancio.github.io/contracena/
+Jogue em https://erosamancio.github.io/Contracena/
 
 ## Instalar no celular
 - Android: abra o link no Chrome e toque em "Instalar app" (ou no menu ⋮, "Adicionar à tela inicial").
